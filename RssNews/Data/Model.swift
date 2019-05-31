@@ -33,8 +33,12 @@ class Model: NSObject, XMLParserDelegate {
         }
     }
     private var currentUrlToImage: String = ""
+    private var channelForArticle: Channel?
     
-    func loadData(stringURL: String, completionHandler: (()-> Void)?) {
+    
+    func loadData(channel: Channel, completionHandler: (()-> Void)?) {
+        guard let stringURL =  channel.link else {return}
+        channelForArticle = channel
         
         let url = URL(string: stringURL)
         let session = URLSession(configuration: .default)
@@ -45,23 +49,37 @@ class Model: NSObject, XMLParserDelegate {
                 }
                 return
             }
+            self.clearArticles(channel: self.channelForArticle!)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "dataClear"), object: self)
+            
             self.parseXML(data: data)
             completionHandler?()
         }
         dataTask.resume()
     }
 
-    func parseJSON(data: Data) {
-        let rootDictionaryAny = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
-        guard let rootDictionary = rootDictionaryAny as? Dictionary<String, Any> else {return}
-        
-        if let array = rootDictionary["articles"] as? [Dictionary<String, Any>] {
-            for dict in array {
-                _ = Article.newJsonArticle(dictionary: dict)
+    func clearArticles(channel: Channel) {
+        if channel.articlesSorted.count != 0 {
+            DispatchQueue.main.async {
+                for article in channel.articlesSorted {
+                    CoreDataManager.sharedInstance.managedObjectContext.delete(article)
+                }
+                CoreDataManager.sharedInstance.saveContext()
             }
-            CoreDataManager.sharedInstance.saveContext()
         }
     }
+    
+//    func parseJSON(data: Data) {
+//        let rootDictionaryAny = try? JSONSerialization.jsonObject(with: data, options: .allowFragments)
+//        guard let rootDictionary = rootDictionaryAny as? Dictionary<String, Any> else {return}
+//
+//        if let array = rootDictionary["articles"] as? [Dictionary<String, Any>] {
+//            for dict in array {
+//                _ = Article.newJsonArticle(dictionary: dict)
+//            }
+//            CoreDataManager.sharedInstance.saveContext()
+//        }
+//    }
 
     func parseXML(data: Data) {
         let parser = XMLParser(data: data)
@@ -104,7 +122,7 @@ class Model: NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
 //            DispatchQueue.main.async {
-            _ = Article.newXmlArticle(title: self.currentTitle, link: self.currentLink, content: self.currentContent, pubDate: self.currentPubDate, urlToImage: currentUrlToImage)
+            _ = Article.newXmlArticle(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage, channel: channelForArticle)
                 CoreDataManager.sharedInstance.saveContext()
 //            }
         }

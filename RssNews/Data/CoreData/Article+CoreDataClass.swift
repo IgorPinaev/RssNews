@@ -14,33 +14,37 @@ import UIKit
 @objc(Article)
 public class Article: NSManagedObject {
 
-    class func newXmlArticle(title: String, link: String, content: String, pubDate: String, urlToImage: String) -> Article {
+    class func newXmlArticle(title: String, link: String, content: String, pubDate: String, urlToImage: String, channel: Channel?) -> Article {
         let article = Article(context: CoreDataManager.sharedInstance.managedObjectContext)
         article.title = title
         article.link = link
         article.content = content
         article.pubDate = pubDate
-//        article.convertUrlToImage(urlString: urlToImage)
-       
+        article.convertUrlToImage(urlString: urlToImage)
+        if let channel = channel {
+            article.channel = channel
+        }
         return article
     }
     
-    class func newJsonArticle(dictionary: Dictionary<String, Any>) -> Article{
-        let article = Article(context: CoreDataManager.sharedInstance.managedObjectContext)
-        article.title = dictionary["title"] as? String ?? ""
-        article.link = dictionary["url"] as? String ?? ""
-        article.content = dictionary["description"] as? String ?? ""
-        article.pubDate = dictionary["publishedAt"] as? String ?? ""
+//    class func newJsonArticle(dictionary: Dictionary<String, Any>) -> Article{
+//        let article = Article(context: CoreDataManager.sharedInstance.managedObjectContext)
+//        article.title = dictionary["title"] as? String ?? ""
+//        article.link = dictionary["url"] as? String ?? ""
+//        article.content = dictionary["description"] as? String ?? ""
+//        article.pubDate = dictionary["publishedAt"] as? String ?? ""
 //        article.convertUrlToImage(urlString: dictionary["urlToImage"] as? String ?? "")
-        
-        return article
-    }
+//
+//        return article
+//    }
     
     private func convertUrlToImage(urlString:String) {
         if let url = URL(string: urlString) {
             if let data = try? Data(contentsOf: url){
-                self.image = UIImage(data: data)?.jpegData(compressionQuality: 1) as NSData?
+                self.image = UIImage(data: data)?.jpegData(compressionQuality: 0.2) as NSData?
             }
+        } else {
+            self.image = nil
         }
     }
 }

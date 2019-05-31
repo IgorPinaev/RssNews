@@ -72,7 +72,7 @@ class ChannelsController: UITableViewController {
         if segue.identifier == "goToNews" {
             guard let destination = segue.destination as? NewsController else {return}
             if let indexpath = tableView.indexPathForSelectedRow {
-                destination.link = channels[indexpath.row].link
+                destination.channel = channels[indexpath.row]
             }
         }
     }

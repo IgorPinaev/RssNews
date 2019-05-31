@@ -20,4 +20,9 @@ public class Channel: NSManagedObject {
         
         return channel
     }
+    
+    var articlesSorted: [Article] {
+        let sortDescriptor = NSSortDescriptor(key: "pubDate", ascending: true)
+        return self.article?.sortedArray(using: [sortDescriptor]) as! [Article]
+    }
 }

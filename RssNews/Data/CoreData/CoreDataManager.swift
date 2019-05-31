@@ -87,10 +87,4 @@ class CoreDataManager {
             }
         }
     }
-    
-    func removeAllData() {
-        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Article")
-        let request = NSBatchDeleteRequest(fetchRequest: fetch)
-        _ = try? managedObjectContext.execute(request)
-    }
 }

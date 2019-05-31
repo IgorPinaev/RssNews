@@ -11,30 +11,44 @@ import SafariServices
 
 class NewsController: UITableViewController {
 
-    var link:String?
+    var channel: Channel?
+    
+    private var articlesInChannel: [Article] {
+        if let channel = channel {
+            return channel.articlesSorted
+        }
+        return articles
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        CoreDataManager.sharedInstance.removeAllData()
-        Model.sharedInstance.loadData(stringURL: link!) {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "dataClear"), object: nil, queue: nil) { (notification) in
             DispatchQueue.main.async {
-               self.tableView.reloadData()
+              self.tableView.reloadData()
+            }
+        }
+        
+        
+        Model.sharedInstance.loadData(channel: channel!) {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }
     }
-
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return articles.count
+
+        return articlesInChannel.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! ArticleCell
 
-        let articleInCell = articles[indexPath.row]
+        print("\(indexPath.row) _ \(articlesInChannel.count)")
+        let articleInCell = articlesInChannel[indexPath.row]
         
         cell.initCell(article: articleInCell)
 
@@ -44,7 +58,7 @@ class NewsController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let articleInCell = articles[indexPath.row]
+        let articleInCell = articlesInChannel[indexPath.row]
         
         if let url = URL(string: articleInCell.link!) {
             let safariVC = SFSafariViewController(url: url)

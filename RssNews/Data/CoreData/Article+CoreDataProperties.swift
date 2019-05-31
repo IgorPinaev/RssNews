@@ -2,7 +2,7 @@
 //  Article+CoreDataProperties.swift
 //  RssNews
 //
-//  Created by Игорь Пинаев on 29/05/2019.
+//  Created by Игорь Пинаев on 30/05/2019.
 //  Copyright © 2019 Igor Pinaev. All rights reserved.
 //
 //
@@ -22,5 +22,6 @@ extension Article {
     @NSManaged public var content: String?
     @NSManaged public var pubDate: String?
     @NSManaged public var image: NSData?
+    @NSManaged public var channel: Channel?
 
 }
