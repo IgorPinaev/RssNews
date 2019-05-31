@@ -11,6 +11,17 @@ import Foundation
 class Model: NSObject, XMLParserDelegate {
     static let sharedInstance = Model()
 
+    struct Art {
+        var title: String
+        var link: String
+        var content: String
+        var pubDate: String
+        var urlToImage: String
+    }
+    
+    private var articless: [Art] = []
+    
+    
     private var currentElement: String = ""
     private var currentTitle: String = "" {
         didSet{
@@ -119,12 +130,25 @@ class Model: NSObject, XMLParserDelegate {
     }
     
     
+    
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
 //            DispatchQueue.main.async {
-            _ = Article.newXmlArticle(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage, channel: channelForArticle)
-                CoreDataManager.sharedInstance.saveContext()
+//            _ = Article.newXmlArticle(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage, channel: channelForArticle)
+//                CoreDataManager.sharedInstance.saveContext()
 //            }
+            let artic = Art(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage)
+            articless.append(artic)
+        }
+    }
+    
+    func parserDidEndDocument(_ parser: XMLParser) {
+        DispatchQueue.main.async {
+            for article in self.articless {
+                _ = Article.newXmlArticle(title: article.title, link: article.link, content: article.content, pubDate: article.pubDate, urlToImage: article.urlToImage, channel: self.channelForArticle)
+            }
+            CoreDataManager.sharedInstance.saveContext()
+            self.articless = []
         }
     }
     
