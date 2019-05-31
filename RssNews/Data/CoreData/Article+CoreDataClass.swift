@@ -20,6 +20,7 @@ public class Article: NSManagedObject {
         article.link = link
         article.content = content
         article.pubDate = pubDate
+        article.stringToDate(stringDate: pubDate)
 //        article.convertUrlToImage(urlString: urlToImage)
         if let channel = channel {
             article.channel = channel
@@ -37,6 +38,14 @@ public class Article: NSManagedObject {
 //
 //        return article
 //    }
+    
+    private func stringToDate(stringDate: String) {
+        let dateFormatter = DateFormatter()
+//        dateFormatter1.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
+        let date = dateFormatter.date(from: stringDate) as! NSDate
+    }
+    
     
     private func convertUrlToImage(urlString:String) {
         if let url = URL(string: urlString) {
