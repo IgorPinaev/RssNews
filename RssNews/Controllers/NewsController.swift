@@ -12,6 +12,8 @@ import SafariServices
 class NewsController: UITableViewController {
 
     var channel: Channel?
+    let indicator = UIActivityIndicatorView(style: .gray)
+
     
     private var articlesInChannel: [Article] {
         if let channel = channel {
@@ -23,19 +25,41 @@ class NewsController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.title = channel?.name
+        
+        indicator.hidesWhenStopped = true
+        indicator.center = self.view.center
+        indicator.color = UIColor.orange
+        view.addSubview(indicator)
+        indicator.startAnimating()
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "dataClear"), object: nil, queue: nil) { (notification) in
             DispatchQueue.main.async {
               self.tableView.reloadData()
             }
         }
         
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "error"), object: nil, queue: nil) { (notification) in
+            self.showError()
+        }
         
         Model.sharedInstance.loadData(channel: channel!) {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.indicator.stopAnimating()
             }
         }
     }
+    
+    @IBAction func refreshControlAction(_ sender: Any) {
+        Model.sharedInstance.loadData(channel: channel!) {
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -46,8 +70,6 @@ class NewsController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! ArticleCell
-
-        print("\(indexPath.row) _ \(articlesInChannel.count)")
         let articleInCell = articlesInChannel[indexPath.row]
         
         cell.initCell(article: articleInCell)
@@ -66,6 +88,16 @@ class NewsController: UITableViewController {
         }
     }
 
+    func showError() {
+        let alertController = UIAlertController(title: "Ошибка при загрузке", message: "Проверьте ссылку источника", preferredStyle: .alert)
+        let actionOK = UIAlertAction(title: "Ок", style: .default) { (action) in
+            self.navigationController?.popViewController(animated: true)
+        }
+        alertController.addAction(actionOK)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

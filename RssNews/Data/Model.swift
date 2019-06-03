@@ -19,7 +19,7 @@ class Model: NSObject, XMLParserDelegate {
         var urlToImage: String
     }
     
-    private var articless: [Art] = []
+    private var articlesDownload: [Art] = []
     
     
     private var currentElement: String = ""
@@ -56,7 +56,8 @@ class Model: NSObject, XMLParserDelegate {
         let dataTask = session.dataTask(with: url!) { (data, responce, error) in
             guard let data = data else {
                 if let error = error {
-                    print("!!!!!!!!!!!!" + error.localizedDescription)
+                    print(error.localizedDescription)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
                 }
                 return
             }
@@ -133,26 +134,31 @@ class Model: NSObject, XMLParserDelegate {
     
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
-//            DispatchQueue.main.async {
-//            _ = Article.newXmlArticle(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage, channel: channelForArticle)
-//                CoreDataManager.sharedInstance.saveContext()
-//            }
-            let artic = Art(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage)
-            articless.append(artic)
+            let article = Art(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage)
+            articlesDownload.append(article)
         }
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
         DispatchQueue.main.async {
-            for article in self.articless {
+            for article in self.articlesDownload {
                 _ = Article.newXmlArticle(title: article.title, link: article.link, content: article.content, pubDate: article.pubDate, urlToImage: article.urlToImage, channel: self.channelForArticle)
             }
             CoreDataManager.sharedInstance.saveContext()
-            self.articless = []
+            self.articlesDownload = []
         }
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
         print(parseError.localizedDescription)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
+    }
+    
+    func validateUrl(url: String) -> Bool {
+        let urlRegEx = "(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*)+)+(/)?(\\?.*)?"
+        let predicate = NSPredicate(format:"SELF MATCHES %@",
+                                    argumentArray:[urlRegEx])
+        _ = NSPredicate.withSubstitutionVariables(predicate)
+        return predicate.evaluate(with: url)
     }
 }
