@@ -19,6 +19,7 @@ class Model: NSObject, XMLParserDelegate {
         var urlToImage: String
     }
     
+    private var isLoading: Bool = false
     private var articlesDownload: [Art] = []
     
     
@@ -48,14 +49,17 @@ class Model: NSObject, XMLParserDelegate {
     
     
     func loadData(channel: Channel, completionHandler: (()-> Void)?) {
+        if isLoading {return}
         guard let stringURL =  channel.link else {return}
         channelForArticle = channel
         
         let url = URL(string: stringURL)
         let session = URLSession(configuration: .default)
+        isLoading = true
         let dataTask = session.dataTask(with: url!) { (data, responce, error) in
             guard let data = data else {
                 if let error = error {
+                    self.isLoading = false
                     print(error.localizedDescription)
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
                 }
@@ -65,6 +69,7 @@ class Model: NSObject, XMLParserDelegate {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "dataClear"), object: self)
             
             self.parseXML(data: data)
+            self.isLoading = false
             completionHandler?()
         }
         dataTask.resume()
@@ -130,8 +135,6 @@ class Model: NSObject, XMLParserDelegate {
         }
     }
     
-    
-    
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "item" {
             let article = Art(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage)
@@ -150,6 +153,7 @@ class Model: NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+        isLoading = false
         print(parseError.localizedDescription)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
     }

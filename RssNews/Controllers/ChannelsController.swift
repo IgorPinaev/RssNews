@@ -30,11 +30,16 @@ class ChannelsController: UITableViewController {
         let alertActionAdd = UIAlertAction(title: "Add", style: .default) { (alert) in
             let channelName = alertController.textFields?[0].text
             let channelLink = alertController.textFields?[1].text
+            
 //            let channelLink = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=009bf23be7fa455095ae15b261ac5e0a"
+            
+            // Добавить уведомления
             if channelName != "" && channelLink != "" {
+                if Model.sharedInstance.validateUrl(url: channelLink!) {
                 _ = Channel.newChannel(name: channelName!, link: channelLink!)
                 CoreDataManager.sharedInstance.saveContext()
                 self.tableView.reloadData()
+                }
             }
         }
         let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
