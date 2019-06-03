@@ -2,7 +2,7 @@
 //  Channel+CoreDataProperties.swift
 //  RssNews
 //
-//  Created by Игорь Пинаев on 30/05/2019.
+//  Created by Игорь Пинаев on 03/06/2019.
 //  Copyright © 2019 Igor Pinaev. All rights reserved.
 //
 //
@@ -17,8 +17,8 @@ extension Channel {
         return NSFetchRequest<Channel>(entityName: "Channel")
     }
 
-    @NSManaged public var name: String?
     @NSManaged public var link: String?
+    @NSManaged public var name: String?
     @NSManaged public var article: NSSet?
 
 }

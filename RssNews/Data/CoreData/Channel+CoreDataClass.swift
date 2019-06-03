@@ -22,7 +22,7 @@ public class Channel: NSManagedObject {
     }
     
     var articlesSorted: [Article] {
-        let sortDescriptor = NSSortDescriptor(key: "pubDate", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "pubDate", ascending: false)
         return self.article?.sortedArray(using: [sortDescriptor]) as! [Article]
     }
 }

@@ -19,7 +19,7 @@ public class Article: NSManagedObject {
         article.title = title
         article.link = link
         article.content = content
-        article.pubDate = pubDate
+        article.pubDate = article.stringToDate(stringDate: pubDate)
 //        article.convertUrlToImage(urlString: urlToImage)
         if let channel = channel {
             article.channel = channel
