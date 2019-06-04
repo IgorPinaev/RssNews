@@ -90,7 +90,7 @@ class NewsController: UITableViewController {
 
     func showError() {
         let alertController = UIAlertController(title: "Ошибка при загрузке", message: "Проверьте ссылку источника", preferredStyle: .alert)
-        let actionOK = UIAlertAction(title: "Ок", style: .default) { (action) in
+        let actionOK = UIAlertAction(title: "Ok", style: .default) { (action) in
             self.navigationController?.popViewController(animated: true)
         }
         alertController.addAction(actionOK)

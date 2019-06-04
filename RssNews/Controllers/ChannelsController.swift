@@ -16,37 +16,7 @@ class ChannelsController: UITableViewController {
     }
 
     @IBAction func pushAddChannel(_ sender: Any) {
-        
-        let alertController = UIAlertController(title: "Add new channel", message: nil
-            , preferredStyle: .alert)
-        
-        alertController.addTextField { (text) in
-            text.placeholder = "Channel title"
-        }
-        alertController.addTextField { (text) in
-            text.placeholder = "Channel link"
-        }
-        
-        let alertActionAdd = UIAlertAction(title: "Add", style: .default) { (alert) in
-            let channelName = alertController.textFields?[0].text
-            let channelLink = alertController.textFields?[1].text
-            
-//            let channelLink = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=009bf23be7fa455095ae15b261ac5e0a"
-            
-            // Добавить уведомления
-            if channelName != "" && channelLink != "" {
-                if Model.sharedInstance.validateUrl(url: channelLink!) {
-                _ = Channel.newChannel(name: channelName!, link: channelLink!)
-                CoreDataManager.sharedInstance.saveContext()
-                self.tableView.reloadData()
-                }
-            }
-        }
-        let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-        
-        alertController.addAction(alertActionCancel)
-        alertController.addAction(alertActionAdd)
-        present(alertController, animated: true, completion: nil)
+        addChannel(channelName: "", channelLink: "")
     }
     
     
@@ -91,6 +61,27 @@ class ChannelsController: UITableViewController {
     */
 
     
+//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+//        let update = updateAction(at: indexPath)
+//        let delete = deleteAction(at: indexPath)
+//        return UISwipeActionsConfiguration(actions: [delete, update)
+//    }
+//
+//    func updateAction(at: indexPath) -> UIContextualAction {
+//
+//    }
+    
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Update") { (action, view, nil) in
+            let channelInCell = channels[indexPath.row]
+            self.addChannel(channelName: channelInCell.name!, channelLink: channelInCell.link!)
+            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
+        }
+        action.backgroundColor = UIColor.blue
+        
+        return UISwipeActionsConfiguration(actions: [action])
+    }
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -106,6 +97,52 @@ class ChannelsController: UITableViewController {
         }    
     }
  
+    
+    func showAlert(error: String, channelName: String, channelLink: String) {
+        let alertError = UIAlertController(title: "Ошибка", message: error, preferredStyle: .alert)
+        let actionOk = UIAlertAction(title: "Ok", style: .default) { (action) in
+            self.addChannel(channelName: channelName, channelLink: channelLink)
+        }
+        alertError.addAction(actionOk)
+        present(alertError, animated: true, completion: nil)
+    }
+    
+    func addChannel(channelName: String, channelLink: String){
+        var title: String
+        if channelName != "" && channelLink != "" {
+            title = "Add new channel"
+        } else { title = "Update new channel"}
+        
+        let alertController = UIAlertController(title: title, message: nil
+            , preferredStyle: .alert)
+        
+        alertController.addTextField { (text) in
+            text.text = channelName
+            text.placeholder = "Channel title"
+        }
+        alertController.addTextField { (text) in
+            text.text = channelLink
+            text.placeholder = "Channel link"
+        }
+        
+        let alertActionAdd = UIAlertAction(title: "Add", style: .default) { (alert) in
+            let name = alertController.textFields?[0].text
+            let link = alertController.textFields?[1].text
+            
+            if name != "" && link != "" {
+                if Model.sharedInstance.validateUrl(url: link!) {
+                    _ = Channel.newChannel(name: name!, link: link!)
+                    CoreDataManager.sharedInstance.saveContext()
+                    self.tableView.reloadData()
+                } else { self.showAlert(error: "Введите корректный адрес источника", channelName: name!, channelLink: link!)}
+            } else {self.showAlert(error: "Пожалуйста заполните все поля", channelName: name!, channelLink: link!)}
+        }
+        let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        alertController.addAction(alertActionCancel)
+        alertController.addAction(alertActionAdd)
+        present(alertController, animated: true, completion: nil)
+    }
 
     /*
     // Override to support rearranging the table view.
