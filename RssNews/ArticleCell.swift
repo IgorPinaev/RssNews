@@ -11,6 +11,7 @@ import UIKit
 class ArticleCell: UITableViewCell {
 
     @IBOutlet weak var labelTitle: UILabel!
+    @IBOutlet weak var labelDate: UILabel!
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var imageArticle: UIImageView!
     
@@ -21,8 +22,10 @@ class ArticleCell: UITableViewCell {
         
         if article.image != nil {
             imageArticle.image = UIImage(data: article.image! as Data)
-        } 
+        }
+//        else {imageArticle.isHidden = true}
         labelTitle.text = article.title
+        labelDate.text = article.dateToString(date: article.pubDate!)
         labelDescription.text = article.content
     }
     

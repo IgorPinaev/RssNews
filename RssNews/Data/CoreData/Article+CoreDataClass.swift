@@ -46,6 +46,13 @@ public class Article: NSManagedObject {
         return date as NSDate
     }
     
+    func dateToString(date: NSDate) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.init(identifier: "ru_RU")
+        dateFormatter.dateFormat = "HH:mm  d MMM yyyy"
+        return dateFormatter.string(from: date as Date)
+    }
+    
     
     private func convertUrlToImage(urlString:String) {
         if let url = URL(string: urlString) {
