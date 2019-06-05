@@ -15,8 +15,6 @@ class Model: NSObject {
     private var isLoading: Bool = false
     
     private var channelForArticle: Channel?
-    var urlsToImages: [String] = []
-    
     
     func loadData(channel: Channel, completionHandler: (()-> Void)?) {
         if isLoading {return}
@@ -43,7 +41,7 @@ class Model: NSObject {
             let feedParser = FeedParser()
             feedParser.channelForArticle = self.channelForArticle
             feedParser.parseXML(data: data)
-//            self.loadImage(urlsToImages: feedParser.urlsToImages)
+            self.loadImage(urlsToImages: feedParser.urlsToImages)
             self.isLoading = false
             completionHandler?()
         }
@@ -76,44 +74,24 @@ class Model: NSObject {
     
 
     var images: [NSData?] = []
-    
-//    func loadImage(urlToImage: String) {
-//        if let url = URL(string: urlToImage) {
-//            if let data = try? Data(contentsOf: url){
-//                images.append(UIImage(data: data)?.jpegData(compressionQuality: 0.2) as NSData?)
-//            }
-//        } else {
-//            images.append(nil)
-//        }
-//    }
-    
-    func loadImage(index: Int) -> NSData?{
-        if urlsToImages == [] {return nil}
-        if let url = URL(string: urlsToImages[index]) {
-            if let data = try? Data(contentsOf: url){
-                return UIImage(data: data)?.jpegData(compressionQuality: 0.2) as NSData?
+
+    func loadImage(urlsToImages: [String]) {
+        for url in urlsToImages {
+            if let url = URL(string: url) {
+                if let data = try? Data(contentsOf: url){
+                    images.append(UIImage(data: data)?.jpegData(compressionQuality: 0.2) as NSData?)
+                }
+            } else {
+                images.append(nil)
             }
         }
-            return nil
+        DispatchQueue.main.async {
+            guard let count = self.channelForArticle?.articlesSorted.count else {return}
+            for index in 0 ... count - 1 {
+                self.channelForArticle?.articlesSorted[index].image = self.images[index]
+            }
+        }
     }
-    
-//    func loadImage(urlsToImages: [String]) {
-//        for url in urlsToImages {
-//            if let url = URL(string: url) {
-//                if let data = try? Data(contentsOf: url){
-//                    images.append(UIImage(data: data)?.jpegData(compressionQuality: 0.2) as NSData?)
-//                }
-//            } else {
-//                images.append(nil)
-//            }
-//        }
-//        DispatchQueue.main.async {
-//            guard let count = self.channelForArticle?.articlesSorted.count else {return}
-//            for index in 0 ... count - 1 {
-//                self.channelForArticle?.articlesSorted[index].image = self.images[index]
-//            }
-//        }
-//    }
     
     func validateUrl(url: String) -> Bool {
         let urlRegEx = "(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*)+)+(/)?(\\?.*)?"
