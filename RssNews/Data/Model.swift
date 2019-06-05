@@ -17,7 +17,11 @@ class Model: NSObject {
     private var channelForArticle: Channel?
     
     func loadData(channel: Channel, completionHandler: (()-> Void)?) {
-        if isLoading {return}
+        if isLoading {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "isLoading"), object: self)
+            return
+            
+        }
         guard let stringURL =  channel.link else {return}
         channelForArticle = channel
         

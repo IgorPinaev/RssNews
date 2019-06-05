@@ -33,6 +33,10 @@ class NewsController: UITableViewController {
         view.addSubview(indicator)
         indicator.startAnimating()
         
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "isLoading"), object: nil, queue: nil) { (notification) in
+            self.refreshControl?.endRefreshing()
+        }
+        
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "dataClear"), object: nil, queue: nil) { (notification) in
             DispatchQueue.main.async {
               self.tableView.reloadData()
