@@ -62,6 +62,8 @@ class Model: NSObject, XMLParserDelegate {
                 if let error = error {
                     self.isLoading = false
                     print(error.localizedDescription)
+                    if error.localizedDescription == "The Internet connection appears to be offline."
+                    {return}
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
                 }
                 return
