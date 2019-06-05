@@ -90,6 +90,8 @@ class Model: NSObject {
             for index in 0 ... count - 1 {
                 self.channelForArticle?.articlesSorted[index].image = self.images[index]
             }
+            CoreDataManager.sharedInstance.saveContext()
+            self.images = []
         }
     }
     

@@ -95,7 +95,6 @@ class FeedParser: NSObject, XMLParserDelegate {
                 _ = Article.newXmlArticle(title: article.title, link: article.link, content: article.content, pubDate: article.pubDate, image: nil, channel: self.channelForArticle)
             }
             CoreDataManager.sharedInstance.saveContext()
-            Model.sharedInstance.urlsToImages = self.urlsToImages
         }
     }
     

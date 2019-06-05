@@ -15,15 +15,14 @@ class ArticleCell: UITableViewCell {
     @IBOutlet weak var labelDescription: UILabel!
     @IBOutlet weak var imageArticle: UIImageView!
     
-    var article: Article?
+    private var article: Article?
     
     func initCell(article: Article) {
         self.article = article
         
         if article.image != nil {
             imageArticle.image = UIImage(data: article.image! as Data)
-        }
-//        else {imageArticle.isHidden = true}
+        } else {imageArticle.image = nil}
         labelTitle.text = article.title
         labelDate.text = article.dateToString(date: article.pubDate!)
         labelDescription.text = article.content
