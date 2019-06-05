@@ -18,7 +18,7 @@ class Model: NSObject {
     
     func loadData(channel: Channel, completionHandler: (()-> Void)?) {
         if isLoading {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "isLoading"), object: self)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "endRefreshing"), object: self)
             return
             
         }
@@ -34,7 +34,10 @@ class Model: NSObject {
                     self.isLoading = false
                     print(error.localizedDescription)
                     if error.localizedDescription == "The Internet connection appears to be offline."
-                    {return}
+                    {
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "endRefreshing"), object: self)
+                        return
+                    }
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
                 }
                 return

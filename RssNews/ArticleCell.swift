@@ -20,6 +20,7 @@ class ArticleCell: UITableViewCell {
     func initCell(article: Article) {
         self.article = article
         
+        // heightConstraint.constant = 0 if nil
         if article.image != nil {
             imageArticle.image = UIImage(data: article.image! as Data)
         } else {imageArticle.image = nil}
