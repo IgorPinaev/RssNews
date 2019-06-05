@@ -14,13 +14,13 @@ import UIKit
 @objc(Article)
 public class Article: NSManagedObject {
 
-    class func newXmlArticle(title: String, link: String, content: String, pubDate: String, urlToImage: String, channel: Channel?) -> Article {
+    class func newXmlArticle(title: String, link: String, content: String, pubDate: String, image: NSData?, channel: Channel?) -> Article {
         let article = Article(context: CoreDataManager.sharedInstance.managedObjectContext)
         article.title = title
         article.link = link
         article.content = content
         article.pubDate = article.stringToDate(stringDate: pubDate)
-        article.convertUrlToImage(urlString: urlToImage)
+        article.image = image
         if let channel = channel {
             article.channel = channel
         }
@@ -51,16 +51,5 @@ public class Article: NSManagedObject {
         dateFormatter.locale = Locale.init(identifier: "ru_RU")
         dateFormatter.dateFormat = "HH:mm  d MMM yyyy"
         return dateFormatter.string(from: date as Date)
-    }
-    
-    
-    private func convertUrlToImage(urlString:String) {
-        if let url = URL(string: urlString) {
-            if let data = try? Data(contentsOf: url){
-                self.image = UIImage(data: data)?.jpegData(compressionQuality: 0.2) as NSData?
-            }
-        } else {
-            self.image = nil
-        }
     }
 }

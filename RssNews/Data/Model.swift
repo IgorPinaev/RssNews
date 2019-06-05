@@ -22,7 +22,7 @@ class Model: NSObject, XMLParserDelegate {
     
     private var isLoading: Bool = false
     private var articlesDownload: [ArticleStuct] = []
-    
+    var images: [NSData?] = []
     
     private var currentElement: String = ""
     private var currentTitle: String = "" {
@@ -140,17 +140,18 @@ class Model: NSObject, XMLParserDelegate {
         if elementName == "item" {
             let article = ArticleStuct(title: currentTitle, link: currentLink, content: currentContent, pubDate: currentPubDate, urlToImage: currentUrlToImage)
             articlesDownload.append(article)
+            loadImage(urlToImage: currentUrlToImage)
         }
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
         DispatchQueue.main.async {
+            var index:Int = 0
             for article in self.articlesDownload {
-                _ = Article.newXmlArticle(title: article.title, link: article.link, content: article.content, pubDate: article.pubDate, urlToImage: article.urlToImage, channel: self.channelForArticle)
+                _ = Article.newXmlArticle(title: article.title, link: article.link, content: article.content, pubDate: article.pubDate, image: self.images[index], channel: self.channelForArticle)
+                index += 1
             }
             CoreDataManager.sharedInstance.saveContext()
-//            self.loadImages(articles: self.articlesDownload)
-            
             self.articlesDownload = []
         }
     }
@@ -160,20 +161,16 @@ class Model: NSObject, XMLParserDelegate {
         print(parseError.localizedDescription)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
     }
-    
-//    func loadImages(articles: [ArticleStuct]) {
-//        DispatchQueue.main.async {
-//            for article in articles{
-//            if let url = URL(string: article.urlToImage) {
-//                if let data = try? Data(contentsOf: url){
-//                    self.channelForArticle?.articlesSorted[0].image = UIImage(data: data)?.jpegData(compressionQuality: 0.2) as NSData?
-//                }
-//            } else {
-//                self.channelForArticle?.articlesSorted[0].image = nil
-//            }
-//            }
-//        }
-//    }
+
+    func loadImage(urlToImage: String) {
+        if let url = URL(string: urlToImage) {
+            if let data = try? Data(contentsOf: url){
+                images.append(UIImage(data: data)?.jpegData(compressionQuality: 0.2) as NSData?)
+            }
+        } else {
+            images.append(nil)
+        }
+    }
     
     func validateUrl(url: String) -> Bool {
         let urlRegEx = "(http|https)://((\\w)*|([0-9]*)|([-|_])*)+([\\.|/]((\\w)*|([0-9]*)|([-|_])*)+)+(/)?(\\?.*)?"
