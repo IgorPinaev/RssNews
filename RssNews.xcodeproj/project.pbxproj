@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D4CF8DF22A7BB9D00B5ABFC /* FeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4CF8DE22A7BB9D00B5ABFC /* FeedParser.swift */; };
 		7D9B6C62229E43BA00232473 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C61229E43BA00232473 /* AppDelegate.swift */; };
 		7D9B6C67229E43BA00232473 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D9B6C65229E43BA00232473 /* Main.storyboard */; };
 		7D9B6C6A229E43BA00232473 /* RssNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C68229E43BA00232473 /* RssNews.xcdatamodeld */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D4CF8DE22A7BB9D00B5ABFC /* FeedParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedParser.swift; sourceTree = "<group>"; };
 		7D9B6C5E229E43BA00232473 /* RssNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RssNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D9B6C61229E43BA00232473 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D9B6C66229E43BA00232473 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			children = (
 				7D9B6C7E229E4D5400232473 /* CoreData */,
 				7D9B6C7A229E443F00232473 /* Model.swift */,
+				7D4CF8DE22A7BB9D00B5ABFC /* FeedParser.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 				7D9B6C62229E43BA00232473 /* AppDelegate.swift in Sources */,
 				7D9B6C85229E4E6900232473 /* Channel+CoreDataClass.swift in Sources */,
 				7D9B6C6A229E43BA00232473 /* RssNews.xcdatamodeld in Sources */,
+				7D4CF8DF22A7BB9D00B5ABFC /* FeedParser.swift in Sources */,
 				7D9B6C7B229E443F00232473 /* Model.swift in Sources */,
 				7D9B6C7D229E46FF00232473 /* FavouriteController.swift in Sources */,
 				7D9B6C84229E4E6900232473 /* Article+CoreDataProperties.swift in Sources */,
