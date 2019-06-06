@@ -24,6 +24,8 @@
 		7D9B6C8A229E5C3400232473 /* ChannelsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C89229E5C3400232473 /* ChannelsController.swift */; };
 		7D9B6C8C229E89A800232473 /* ArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C8B229E89A800232473 /* ArticleCell.swift */; };
 		7DB097EE22A9033F003629C5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097ED22A9033F003629C5 /* Extensions.swift */; };
+		7DB097F122A91841003629C5 /* Favourite+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097EF22A91841003629C5 /* Favourite+CoreDataClass.swift */; };
+		7DB097F222A91841003629C5 /* Favourite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097F022A91841003629C5 /* Favourite+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		7D9B6C89229E5C3400232473 /* ChannelsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsController.swift; sourceTree = "<group>"; };
 		7D9B6C8B229E89A800232473 /* ArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCell.swift; sourceTree = "<group>"; };
 		7DB097ED22A9033F003629C5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		7DB097EF22A91841003629C5 /* Favourite+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7DB097F022A91841003629C5 /* Favourite+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,8 @@
 		7D9B6C7E229E4D5400232473 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				7DB097EF22A91841003629C5 /* Favourite+CoreDataClass.swift */,
+				7DB097F022A91841003629C5 /* Favourite+CoreDataProperties.swift */,
 				7D9B6C7F229E4E6900232473 /* Article+CoreDataClass.swift */,
 				7D9B6C80229E4E6900232473 /* Article+CoreDataProperties.swift */,
 				7D9B6C81229E4E6900232473 /* Channel+CoreDataClass.swift */,
@@ -196,6 +202,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D9B6C83229E4E6900232473 /* Article+CoreDataClass.swift in Sources */,
+				7DB097F222A91841003629C5 /* Favourite+CoreDataProperties.swift in Sources */,
 				7D9B6C77229E441000232473 /* NewsController.swift in Sources */,
 				7D9B6C62229E43BA00232473 /* AppDelegate.swift in Sources */,
 				7D9B6C85229E4E6900232473 /* Channel+CoreDataClass.swift in Sources */,
@@ -206,6 +213,7 @@
 				7D9B6C84229E4E6900232473 /* Article+CoreDataProperties.swift in Sources */,
 				7D9B6C8C229E89A800232473 /* ArticleCell.swift in Sources */,
 				7D9B6C88229E50CE00232473 /* CoreDataManager.swift in Sources */,
+				7DB097F122A91841003629C5 /* Favourite+CoreDataClass.swift in Sources */,
 				7D9B6C86229E4E6900232473 /* Channel+CoreDataProperties.swift in Sources */,
 				7D9B6C8A229E5C3400232473 /* ChannelsController.swift in Sources */,
 				7DB097EE22A9033F003629C5 /* Extensions.swift in Sources */,

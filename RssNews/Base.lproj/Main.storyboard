@@ -201,7 +201,7 @@
         <scene sceneID="9DG-93-pny">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dZr-0S-dHI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Favourite" id="27t-gF-RPp"/>
+                    <tabBarItem key="tabBarItem" title="Favourite" image="favourite" id="27t-gF-RPp"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ZZu-UG-cmX">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -220,7 +220,7 @@
         <scene sceneID="IML-u5-1mk">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Cfs-Rs-6t1" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Channels" id="Qy1-HR-E6G"/>
+                    <tabBarItem key="tabBarItem" title="Channels" image="rss" id="Qy1-HR-E6G"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rJX-c6-RjQ">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -236,4 +236,8 @@
             <point key="canvasLocation" x="280.80000000000001" y="163.26836581709148"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="favourite" width="25" height="23"/>
+        <image name="rss" width="25" height="25"/>
+    </resources>
 </document>

@@ -16,7 +16,7 @@ class ChannelsController: UITableViewController {
     }
 
     @IBAction func pushAddChannel(_ sender: Any) {
-        addChannel(channelName: "", channelLink: "")
+        addChannel(channelName: "", channelLink: "", index: nil)
     }
     
     
@@ -72,12 +72,12 @@ class ChannelsController: UITableViewController {
 //    }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .destructive, title: "Update") { (action, view, nil) in
+        let action = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
             let channelInCell = channels[indexPath.row]
-            self.addChannel(channelName: channelInCell.name!, channelLink: channelInCell.link!)
-            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
+            self.addChannel(channelName: channelInCell.name!, channelLink: channelInCell.link!, index: indexPath.row)
         }
-        action.backgroundColor = UIColor.blue
+        action.backgroundColor = UIColor.orange
+        action.image = UIImage(named: "edit")
         
         return UISwipeActionsConfiguration(actions: [action])
     }
@@ -92,26 +92,24 @@ class ChannelsController: UITableViewController {
             CoreDataManager.sharedInstance.saveContext()
             
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
  
     
-    func showAlert(error: String, channelName: String, channelLink: String) {
+    func showAlert(error: String, channelName: String, channelLink: String, index: Int?) {
         let alertError = UIAlertController(title: "Ошибка", message: error, preferredStyle: .alert)
         let actionOk = UIAlertAction(title: "Ok", style: .default) { (action) in
-            self.addChannel(channelName: channelName, channelLink: channelLink)
+            self.addChannel(channelName: channelName, channelLink: channelLink, index: index)
         }
         alertError.addAction(actionOk)
         present(alertError, animated: true, completion: nil)
     }
     
-    func addChannel(channelName: String, channelLink: String){
+    func addChannel(channelName: String, channelLink: String, index: Int?){
         var title: String
-        if channelName != "" && channelLink != "" {
+        if index == nil {
             title = "Add new channel"
-        } else { title = "Update new channel"}
+        } else { title = "Update channel"}
         
         let alertController = UIAlertController(title: title, message: nil
             , preferredStyle: .alert)
@@ -131,11 +129,15 @@ class ChannelsController: UITableViewController {
             
             if name != "" && link != "" {
                 if Model.sharedInstance.validateUrl(url: link!) {
+                    if index != nil{
+                        let channelInCell = channels[index!]
+                        CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
+                    }
                     _ = Channel.newChannel(name: name!, link: link!)
                     CoreDataManager.sharedInstance.saveContext()
                     self.tableView.reloadData()
-                } else { self.showAlert(error: "Введите корректный адрес источника", channelName: name!, channelLink: link!)}
-            } else {self.showAlert(error: "Пожалуйста заполните все поля", channelName: name!, channelLink: link!)}
+                } else { self.showAlert(error: "Введите корректный адрес источника", channelName: name!, channelLink: link!, index: index)}
+            } else {self.showAlert(error: "Пожалуйста заполните все поля", channelName: name!, channelLink: link!, index: index)}
         }
         let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         
