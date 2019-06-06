@@ -99,7 +99,6 @@ class FeedParser: NSObject, XMLParserDelegate {
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-//        isLoading = false
         print(parseError.localizedDescription)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "error"), object: self)
     }

@@ -23,6 +23,7 @@
 		7D9B6C88229E50CE00232473 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C87229E50CE00232473 /* CoreDataManager.swift */; };
 		7D9B6C8A229E5C3400232473 /* ChannelsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C89229E5C3400232473 /* ChannelsController.swift */; };
 		7D9B6C8C229E89A800232473 /* ArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C8B229E89A800232473 /* ArticleCell.swift */; };
+		7DB097EE22A9033F003629C5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097ED22A9033F003629C5 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		7D9B6C87229E50CE00232473 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		7D9B6C89229E5C3400232473 /* ChannelsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsController.swift; sourceTree = "<group>"; };
 		7D9B6C8B229E89A800232473 /* ArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCell.swift; sourceTree = "<group>"; };
+		7DB097ED22A9033F003629C5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 			children = (
 				7D9B6C7E229E4D5400232473 /* CoreData */,
 				7D9B6C7A229E443F00232473 /* Model.swift */,
+				7DB097ED22A9033F003629C5 /* Extensions.swift */,
 				7D4CF8DE22A7BB9D00B5ABFC /* FeedParser.swift */,
 			);
 			path = Data;
@@ -205,6 +208,7 @@
 				7D9B6C88229E50CE00232473 /* CoreDataManager.swift in Sources */,
 				7D9B6C86229E4E6900232473 /* Channel+CoreDataProperties.swift in Sources */,
 				7D9B6C8A229E5C3400232473 /* ChannelsController.swift in Sources */,
+				7DB097EE22A9033F003629C5 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

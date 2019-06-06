@@ -18,8 +18,8 @@ public class Article: NSManagedObject {
         let article = Article(context: CoreDataManager.sharedInstance.managedObjectContext)
         article.title = title
         article.link = link
-        article.content = content
-        article.pubDate = article.stringToDate(stringDate: pubDate)
+        article.content = content.htmlToString
+        article.pubDate = pubDate.toDate()
         article.image = image
         if let channel = channel {
             article.channel = channel
@@ -37,19 +37,4 @@ public class Article: NSManagedObject {
 //
 //        return article
 //    }
-    
-    private func stringToDate(stringDate: String) -> NSDate {
-        let dateFormatter = DateFormatter()
-        //        dateFormatter1.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
-        guard let date = dateFormatter.date(from: stringDate) else {return NSDate()}
-        return date as NSDate
-    }
-    
-    func dateToString(date: NSDate) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.init(identifier: "ru_RU")
-        dateFormatter.dateFormat = "HH:mm  d MMM yyyy"
-        return dateFormatter.string(from: date as Date)
-    }
 }

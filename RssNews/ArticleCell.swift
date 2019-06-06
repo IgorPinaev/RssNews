@@ -25,7 +25,7 @@ class ArticleCell: UITableViewCell {
             imageArticle.image = UIImage(data: article.image! as Data)
         } else {imageArticle.image = nil}
         labelTitle.text = article.title
-        labelDate.text = article.dateToString(date: article.pubDate!)
+        labelDate.text = article.pubDate?.toString()
         labelDescription.text = article.content
     }
     
