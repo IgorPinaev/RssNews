@@ -83,6 +83,7 @@ class Model: NSObject {
     var images: [NSData?] = []
 
     func loadImage(urlsToImages: [String]) {
+        if urlsToImages == [] {return}
         for url in urlsToImages {
             if let url = URL(string: url) {
                 if let data = try? Data(contentsOf: url){

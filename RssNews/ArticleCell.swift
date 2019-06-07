@@ -17,17 +17,28 @@ class ArticleCell: UITableViewCell {
     
     private var article: Article?
     
-    func initCell(article: Article) {
-        self.article = article
+    func initCell(title: String?, content: String?, date: String?, image: NSData?) {
         
         // heightConstraint.constant = 0 if nil
-        if article.image != nil {
-            imageArticle.image = UIImage(data: article.image! as Data)
+        if image != nil {
+            imageArticle.image = UIImage(data: image! as Data)
         } else {imageArticle.image = nil}
-        labelTitle.text = article.title
-        labelDate.text = article.pubDate?.toString()
-        labelDescription.text = article.content
+        labelTitle.text = title
+        labelDate.text = date
+        labelDescription.text = content
     }
+    
+//    func initCell(article: Article) {
+//        self.article = article
+//
+//        // heightConstraint.constant = 0 if nil
+//        if article.image != nil {
+//            imageArticle.image = UIImage(data: article.image! as Data)
+//        } else {imageArticle.image = nil}
+//        labelTitle.text = article.title
+//        labelDate.text = article.pubDate?.toString()
+//        labelDescription.text = article.content
+//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

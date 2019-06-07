@@ -35,6 +35,18 @@ var articles: [Article] {
     return []
 }
 
+var favourites: [Favourite] {
+    let request = NSFetchRequest<Favourite>(entityName: "Favourite")
+    
+    let sortDesc = NSSortDescriptor(key: "pubDate", ascending: true)
+    request.sortDescriptors = [sortDesc]
+    let array = try? CoreDataManager.sharedInstance.managedObjectContext.fetch(request)
+    
+    if array != nil {
+        return array!
+    }
+    return []
+}
 
 class CoreDataManager {
     // MARK: - Core Data stack

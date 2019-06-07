@@ -13,7 +13,7 @@ import CoreData
 @objc(Favourite)
 public class Favourite: NSManagedObject {
 
-    class func addToFavourite(title: String, link: String, content: String, pubDate: NSDate, image: NSData?) -> Favourite {
+    class func addToFavourite(title: String?, link: String?, content: String?, pubDate: NSDate?, image: NSData?) -> Favourite {
         let article = Favourite(context: CoreDataManager.sharedInstance.managedObjectContext)
         article.title = title
         article.link = link

@@ -12,14 +12,11 @@ class ChannelsController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     @IBAction func pushAddChannel(_ sender: Any) {
         addChannel(channelName: "", channelLink: "", index: nil)
     }
-    
-    
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows

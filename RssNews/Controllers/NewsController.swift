@@ -56,6 +56,21 @@ class NewsController: UITableViewController {
                 self.indicator.stopAnimating()
             }
         }
+        
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(NewsController.longPressGestureRecognized(_:)))
+        tableView.addGestureRecognizer(longPress)
+    }
+    
+    @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
+        let longPress = gestureRecognizer.location(in: tableView)
+        let indexPath = tableView.indexPathForRow(at: longPress)
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            if let index = indexPath?.row {
+                share(index: index)
+            }
+            return
+        }
     }
     
     @IBAction func refreshControlAction(_ sender: Any) {
@@ -79,7 +94,7 @@ class NewsController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! ArticleCell
         let articleInCell = articlesInChannel[indexPath.row]
         
-        cell.initCell(article: articleInCell)
+        cell.initCell(title: articleInCell.title, content: articleInCell.content, date: articleInCell.pubDate?.toString(), image: articleInCell.image)
 
         return cell
     }
@@ -104,6 +119,17 @@ class NewsController: UITableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    
+    func share(index: Int) {
+        let alert = UIAlertController(title: "Title", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Add to favourites", style: .default, handler: { (action) in
+            let article = self.articlesInChannel[index] 
+            _ = Favourite.addToFavourite(title: article.title, link: article.link, content: article.content, pubDate: article.pubDate, image: article.image)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
     
     /*
     // Override to support conditional editing of the table view.
