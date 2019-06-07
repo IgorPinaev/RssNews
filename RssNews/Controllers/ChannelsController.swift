@@ -19,7 +19,6 @@ class ChannelsController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return channels.count
     }
 
@@ -59,37 +58,40 @@ class ChannelsController: UITableViewController {
 
     
 //    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let update = updateAction(at: indexPath)
-//        let delete = deleteAction(at: indexPath)
-//        return UISwipeActionsConfiguration(actions: [delete, update)
+//        let delete = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
+//            let channelInCell = channels[indexPath.row]
+////            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
+////            CoreDataManager.sharedInstance.saveContext()
+////            tableView.deleteRows(at: [indexPath], with: .fade)
+//        }
+//        delete.backgroundColor = UIColor.red
+//        delete.image = UIImage(named: "bin")
+//        return UISwipeActionsConfiguration(actions: [delete])
 //    }
-//
-//    func updateAction(at: indexPath) -> UIContextualAction {
-//
-//    }
+
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
+        let edit = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
             let channelInCell = channels[indexPath.row]
             self.addChannel(channelName: channelInCell.name!, channelLink: channelInCell.link!, index: indexPath.row)
         }
-        action.backgroundColor = UIColor.orange
-        action.image = UIImage(named: "edit")
+        edit.backgroundColor = UIColor.orange
+        edit.image = UIImage(named: "edit")
         
-        return UISwipeActionsConfiguration(actions: [action])
+        return UISwipeActionsConfiguration(actions: [edit])
     }
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
+
             let channelInCell = channels[indexPath.row]
-            
+
             CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
             CoreDataManager.sharedInstance.saveContext()
-            
+
             tableView.deleteRows(at: [indexPath], with: .fade)
-        }    
+        }
     }
  
     

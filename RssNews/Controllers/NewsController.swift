@@ -84,8 +84,6 @@ class NewsController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-
         return articlesInChannel.count
     }
 
@@ -125,6 +123,7 @@ class NewsController: UITableViewController {
         alert.addAction(UIAlertAction(title: "Add to favourites", style: .default, handler: { (action) in
             let article = self.articlesInChannel[index] 
             _ = Favourite.addToFavourite(title: article.title, link: article.link, content: article.content, pubDate: article.pubDate, image: article.image)
+            CoreDataManager.sharedInstance.saveContext()
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
