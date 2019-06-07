@@ -120,12 +120,14 @@ class NewsController: UITableViewController {
     
     func share(index: Int) {
         let alert = UIAlertController(title: "Title", message: nil, preferredStyle: .actionSheet)
+        
+        let article = self.articlesInChannel[index]
+        if favourites.firstIndex(where: {$0.title == article.title && $0.link == article.link && $0.content == article.content && $0.pubDate == article.pubDate && $0.image == article.image}) == nil {
         alert.addAction(UIAlertAction(title: "Add to favourites", style: .default, handler: { (action) in
-            let article = self.articlesInChannel[index] 
             _ = Favourite.addToFavourite(title: article.title, link: article.link, content: article.content, pubDate: article.pubDate, image: article.image)
             CoreDataManager.sharedInstance.saveContext()
         }))
-        
+        }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
