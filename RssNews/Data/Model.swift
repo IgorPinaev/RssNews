@@ -33,7 +33,7 @@ class Model: NSObject {
                 if let error = error {
                     self.isLoading = false
                     print(error.localizedDescription)
-                    if error.localizedDescription == "The Internet connection appears to be offline."
+                    if let error = error as? URLError, error.code == .notConnectedToInternet
                     {
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "endRefreshing"), object: self)
                         return
