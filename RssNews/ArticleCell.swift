@@ -10,35 +10,21 @@ import UIKit
 
 class ArticleCell: UITableViewCell {
 
-    @IBOutlet weak var labelTitle: UILabel!
-    @IBOutlet weak var labelDate: UILabel!
-    @IBOutlet weak var labelDescription: UILabel!
-    @IBOutlet weak var imageArticle: UIImageView!
-    
-    private var article: Article?
+    @IBOutlet private weak var labelTitle: UILabel!
+    @IBOutlet private weak var labelDate: UILabel!
+    @IBOutlet private weak var labelDescription: UILabel!
+    @IBOutlet private weak var imageArticle: UIImageView!
     
     func initCell(title: String?, content: String?, date: String?, image: NSData?) {
         
-        // heightConstraint.constant = 0 if nil
         if image != nil {
+            
             imageArticle.image = UIImage(data: image! as Data)
         } else {imageArticle.image = nil}
         labelTitle.text = title
         labelDate.text = date
         labelDescription.text = content
     }
-    
-//    func initCell(article: Article) {
-//        self.article = article
-//
-//        // heightConstraint.constant = 0 if nil
-//        if article.image != nil {
-//            imageArticle.image = UIImage(data: article.image! as Data)
-//        } else {imageArticle.image = nil}
-//        labelTitle.text = article.title
-//        labelDate.text = article.pubDate?.toString()
-//        labelDescription.text = article.content
-//    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

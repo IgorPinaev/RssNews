@@ -14,7 +14,7 @@ class NewsController: UIViewController {
     var channel: Channel?
     let indicator = UIActivityIndicatorView(style: .gray)
 
-    @IBOutlet weak var newsTable: UITableView!
+    @IBOutlet private weak var newsTable: UITableView!
     
     private var articlesInChannel: [Article] {
         if let channel = channel {

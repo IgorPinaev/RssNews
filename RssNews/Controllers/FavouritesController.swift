@@ -11,7 +11,7 @@ import SafariServices
 
 class FavouritesController: UIViewController {
 
-    @IBOutlet weak var favouritesTable: UITableView!
+    @IBOutlet private weak var favouritesTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

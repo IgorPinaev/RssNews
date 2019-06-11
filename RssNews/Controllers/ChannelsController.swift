@@ -10,7 +10,7 @@ import UIKit
 
 class ChannelsController: UIViewController {
 
-    @IBOutlet weak var channelsTable: UITableView!
+    @IBOutlet private weak var channelsTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
