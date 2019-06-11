@@ -8,93 +8,20 @@
 
 import UIKit
 
-class ChannelsController: UITableViewController {
+class ChannelsController: UIViewController {
 
+    @IBOutlet weak var channelsTable: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        channelsTable.delegate = self
+        channelsTable.dataSource = self
     }
 
     @IBAction func pushAddChannel(_ sender: Any) {
         addChannel(channelName: "", channelLink: "", index: nil)
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return channels.count
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelCell", for: indexPath)
-
-        let channelInCell = channels[indexPath.row]
-        
-        cell.textLabel?.text = channelInCell.name
-        cell.detailTextLabel?.text = channelInCell.link
-
-        return cell
-    }
- 
- 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToNews", sender: self)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToNews" {
-            guard let destination = segue.destination as? NewsController else {return}
-            if let indexpath = tableView.indexPathForSelectedRow {
-                destination.channel = channels[indexpath.row]
-            }
-        }
-    }
-    
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    
-//    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let delete = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
-//            let channelInCell = channels[indexPath.row]
-////            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
-////            CoreDataManager.sharedInstance.saveContext()
-////            tableView.deleteRows(at: [indexPath], with: .fade)
-//        }
-//        delete.backgroundColor = UIColor.red
-//        delete.image = UIImage(named: "bin")
-//        return UISwipeActionsConfiguration(actions: [delete])
-//    }
-
-    
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let edit = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
-            let channelInCell = channels[indexPath.row]
-            self.addChannel(channelName: channelInCell.name!, channelLink: channelInCell.link!, index: indexPath.row)
-        }
-        edit.backgroundColor = UIColor.orange
-        edit.image = UIImage(named: "edit")
-        
-        return UISwipeActionsConfiguration(actions: [edit])
-    }
-    
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-
-            let channelInCell = channels[indexPath.row]
-
-            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
-            CoreDataManager.sharedInstance.saveContext()
-
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
- 
-    
+   
     func showAlert(error: String, channelName: String, channelLink: String, index: Int?) {
         let alertError = UIAlertController(title: "Ошибка", message: error, preferredStyle: .alert)
         let actionOk = UIAlertAction(title: "Ok", style: .default) { (action) in
@@ -134,7 +61,7 @@ class ChannelsController: UITableViewController {
                     }
                     _ = Channel.newChannel(name: name!, link: link!)
                     CoreDataManager.sharedInstance.saveContext()
-                    self.tableView.reloadData()
+                    self.channelsTable.reloadData()
                 } else { self.showAlert(error: "Введите корректный адрес источника", channelName: name!, channelLink: link!, index: index)}
             } else {self.showAlert(error: "Пожалуйста заполните все поля", channelName: name!, channelLink: link!, index: index)}
         }
@@ -144,22 +71,75 @@ class ChannelsController: UITableViewController {
         alertController.addAction(alertActionAdd)
         present(alertController, animated: true, completion: nil)
     }
+}
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+extension ChannelsController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return channels.count
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelCell", for: indexPath)
+        
+        let channelInCell = channels[indexPath.row]
+        
+        cell.textLabel?.text = channelInCell.name
+        cell.detailTextLabel?.text = channelInCell.link
+        
+        return cell
     }
-    */
-
-   
-
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToNews", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToNews" {
+            guard let destination = segue.destination as? NewsController else {return}
+            if let indexpath = channelsTable.indexPathForSelectedRow {
+                destination.channel = channels[indexpath.row]
+            }
+        }
+    }
+    
+    //    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    //        let delete = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
+    //            let channelInCell = channels[indexPath.row]
+    ////            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
+    ////            CoreDataManager.sharedInstance.saveContext()
+    ////            tableView.deleteRows(at: [indexPath], with: .fade)
+    //        }
+    //        delete.backgroundColor = UIColor.red
+    //        delete.image = UIImage(named: "bin")
+    //        return UISwipeActionsConfiguration(actions: [delete])
+    //    }
+    
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let edit = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
+            let channelInCell = channels[indexPath.row]
+            self.addChannel(channelName: channelInCell.name!, channelLink: channelInCell.link!, index: indexPath.row)
+        }
+        edit.backgroundColor = UIColor.orange
+        edit.image = UIImage(named: "edit")
+        
+        return UISwipeActionsConfiguration(actions: [edit])
+    }
+    
+    // Override to support editing the table view.
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let channelInCell = channels[indexPath.row]
+            
+            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
+            CoreDataManager.sharedInstance.saveContext()
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
 }
