@@ -17,10 +17,7 @@ class ArticleCell: UITableViewCell {
     
     func initCell(title: String?, content: String?, date: String?, image: NSData?) {
         
-        if image != nil {
-            
-            imageArticle.image = UIImage(data: image! as Data)
-        } else {imageArticle.image = nil}
+        imageArticle.image = (image == nil) ? nil : UIImage(data: image! as Data)
         labelTitle.text = title
         labelDate.text = date
         labelDescription.text = content

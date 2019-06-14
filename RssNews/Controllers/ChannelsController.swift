@@ -18,6 +18,9 @@ class ChannelsController: UIViewController {
         channelsTable.dataSource = self
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        channelsTable.reloadData()
+    }
     @IBAction func pushAddChannel(_ sender: Any) {
         addChannel(channelName: "", channelLink: "", index: nil)
     }
