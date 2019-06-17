@@ -11,20 +11,21 @@ import SafariServices
 
 class FavouritesController: UIViewController {
 
-    @IBOutlet private weak var favouritesTable: UITableView!
+    @IBOutlet weak var favouritesCollection: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        favouritesTable.delegate = self
-        favouritesTable.dataSource = self
+        favouritesCollection.delegate = self
+        favouritesCollection.dataSource = self
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(NewsController.longPressGestureRecognized(_:)))
-        favouritesTable.addGestureRecognizer(longPress)
+        favouritesCollection.addGestureRecognizer(longPress)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        favouritesTable.reloadData()
+        super.viewWillAppear(animated)
+        favouritesCollection.reloadData()
     }
     
     func share(index: Int) {
@@ -33,7 +34,7 @@ class FavouritesController: UIViewController {
             let article = favourites[index]
             CoreDataManager.sharedInstance.managedObjectContext.delete(article)
             CoreDataManager.sharedInstance.saveContext()
-            self.favouritesTable.reloadData()
+            self.favouritesCollection.reloadData()
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -42,11 +43,24 @@ class FavouritesController: UIViewController {
 
 }
 
-extension FavouritesController: UITableViewDelegate, UITableViewDataSource {
+extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return favourites.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewsItem", for: indexPath) as! ArticleCollectionCell
+        let articleInCell = favourites[indexPath.row]
+        
+        cell.initCell(title: articleInCell.title, content: articleInCell.content, date: articleInCell.pubDate?.toString(), image: articleInCell.image)
+        
+        return cell
+    }
+    
     
     @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
-        let longPress = gestureRecognizer.location(in: favouritesTable)
-        let indexPath = favouritesTable.indexPathForRow(at: longPress)
+        let longPress = gestureRecognizer.location(in: favouritesCollection)
+        let indexPath = favouritesCollection.indexPathForItem(at: longPress)
         if gestureRecognizer.state == UIGestureRecognizer.State.began {
             if let index = indexPath?.row {
                 share(index: index)
@@ -55,22 +69,9 @@ extension FavouritesController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favourites.count
-    }
     
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! ArticleCell
-        let articleInCell = favourites[indexPath.row]
-        
-        cell.initCell(title: articleInCell.title, content: articleInCell.content, date: articleInCell.pubDate?.toString(), image: articleInCell.image)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let articleInCell = favourites[indexPath.row]
         
         if let url = URL(string: articleInCell.link!) {
