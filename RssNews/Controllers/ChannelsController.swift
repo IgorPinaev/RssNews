@@ -65,8 +65,7 @@ class ChannelsController: UIViewController {
             if name != "" && link != "" {
                 if Model.sharedInstance.validateUrl(url: link!) {
                     if index != nil{
-                        channels[index!].setValue(name, forKey: "name")
-                        channels[index!].setValue(link, forKey: "link")
+                        channels[index!].setValuesForKeys(["name" : name! , "link" : link!])
                     } else {
                     _ = Channel.newChannel(name: name!, link: link!)
                     }

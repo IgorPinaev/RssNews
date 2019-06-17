@@ -14,7 +14,7 @@ class NewsController: UIViewController {
     var channel: Channel?
     let indicator = UIActivityIndicatorView(style: .gray)
 
-    @IBOutlet private weak var newsTable: UITableView!
+    @IBOutlet weak var newsCollection: UICollectionView!
     
     private var articlesInChannel: [Article] {
         if let channel = channel {
@@ -26,8 +26,8 @@ class NewsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        newsTable.delegate = self
-        newsTable.dataSource = self
+        newsCollection.delegate = self
+        newsCollection.dataSource = self
         
         navigationItem.title = channel?.name
         
@@ -39,14 +39,14 @@ class NewsController: UIViewController {
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "endRefreshing"), object: nil, queue: nil) { (notification) in
             DispatchQueue.main.async {
-                self.newsTable.refreshControl?.endRefreshing()
+                self.newsCollection.refreshControl?.endRefreshing()
                 self.indicator.stopAnimating()
             }
         }
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "dataClear"), object: nil, queue: nil) { (notification) in
             DispatchQueue.main.async {
-              self.newsTable.reloadData()
+              self.newsCollection.reloadData()
             }
         }
         
@@ -56,32 +56,21 @@ class NewsController: UIViewController {
         
         Model.sharedInstance.loadData(channel: channel!) {
             DispatchQueue.main.async {
-                self.newsTable.reloadData()
+                self.newsCollection.reloadData()
                 self.indicator.stopAnimating()
             }
         }
         
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(NewsController.longPressGestureRecognized(_:)))
-        newsTable.addGestureRecognizer(longPress)
-    }
-    
-    @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
-        let longPress = gestureRecognizer.location(in: newsTable)
-        let indexPath = newsTable.indexPathForRow(at: longPress)
-        if gestureRecognizer.state == UIGestureRecognizer.State.began {
-            if let index = indexPath?.row {
-                share(index: index)
-            }
-            return
-        }
+        newsCollection.addGestureRecognizer(longPress)
     }
     
     @IBAction func refreshControlAction(_ sender: Any) {
         Model.sharedInstance.loadData(channel: channel!) {
             DispatchQueue.main.async {
-                self.newsTable.refreshControl?.endRefreshing()
-                self.newsTable.reloadData()
+                self.newsCollection.refreshControl?.endRefreshing()
+                self.newsCollection.reloadData()
             }
         }
     }
@@ -111,15 +100,13 @@ class NewsController: UIViewController {
     }
 }
 
-extension NewsController: UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension NewsController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return articlesInChannel.count
     }
     
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! ArticleCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewsItem", for: indexPath) as! ArticleCollectionCell
         let articleInCell = articlesInChannel[indexPath.row]
         
         cell.initCell(title: articleInCell.title, content: articleInCell.content, date: articleInCell.pubDate?.toString(), image: articleInCell.image)
@@ -127,14 +114,23 @@ extension NewsController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let articleInCell = articlesInChannel[indexPath.row]
         
         if let url = URL(string: articleInCell.link!) {
             let safariVC = SFSafariViewController(url: url)
             present(safariVC, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
+        let longPress = gestureRecognizer.location(in: newsCollection)
+        let indexPath = newsCollection.indexPathForItem(at: longPress)
+        if gestureRecognizer.state == UIGestureRecognizer.State.began {
+            if let index = indexPath?.row {
+                share(index: index)
+            }
+            return
         }
     }
 }
