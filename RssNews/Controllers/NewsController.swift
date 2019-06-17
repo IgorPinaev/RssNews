@@ -129,3 +129,13 @@ extension NewsController: UICollectionViewDelegate, UICollectionViewDataSource {
         }
     }
 }
+
+extension NewsController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        let width = UIScreen.main.bounds.width
+        let height = UIScreen.main.bounds.height / 3
+        return CGSize(width: width, height: height)
+    }
+}
