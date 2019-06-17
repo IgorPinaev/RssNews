@@ -27,7 +27,7 @@ class ChannelsController: UIViewController {
     }
    
     func showAlert(error: String, channelName: String, channelLink: String, index: Int?) {
-        let alertError = UIAlertController(title: "Ошибка", message: error, preferredStyle: .alert)
+        let alertError = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
         let actionOk = UIAlertAction(title: "Ok", style: .default) { (action) in
             self.addChannel(channelName: channelName, channelLink: channelLink, index: index)
         }
@@ -71,8 +71,8 @@ class ChannelsController: UIViewController {
                     }
                     CoreDataManager.sharedInstance.saveContext()
                     self.channelsTable.reloadData()
-                } else { self.showAlert(error: "Введите корректный адрес источника", channelName: name!, channelLink: link!, index: index)}
-            } else {self.showAlert(error: "Пожалуйста заполните все поля", channelName: name!, channelLink: link!, index: index)}
+                } else { self.showAlert(error: "Please enter a valid source address", channelName: name!, channelLink: link!, index: index)}
+            } else {self.showAlert(error: "Please fill in all fields", channelName: name!, channelLink: link!, index: index)}
         }
         
         let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)

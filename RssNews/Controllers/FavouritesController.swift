@@ -30,17 +30,28 @@ class FavouritesController: UIViewController {
     
     func share(index: Int) {
         let alert = UIAlertController(title: "Title", message: nil, preferredStyle: .actionSheet)
+        let article = favourites[index]
+        
         alert.addAction(UIAlertAction(title: "Remove from favourites", style: .destructive, handler: { (action) in
-            let article = favourites[index]
             CoreDataManager.sharedInstance.managedObjectContext.delete(article)
             CoreDataManager.sharedInstance.saveContext()
             self.favouritesCollection.reloadData()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Open in Safari", style: .default, handler: { (action) in
+                self.openInSafari(urlString: article.link)
         }))
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 
+    func openInSafari(urlString: String?) {
+        if let url = URL(string: urlString!) {
+            let safariVC = SFSafariViewController(url: url)
+            present(safariVC, animated: true, completion: nil)
+        }
+    }
 }
 
 extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -57,7 +68,6 @@ extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
-    
     @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {
         let longPress = gestureRecognizer.location(in: favouritesCollection)
         let indexPath = favouritesCollection.indexPathForItem(at: longPress)
@@ -69,14 +79,8 @@ extension FavouritesController: UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     
-    
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let articleInCell = favourites[indexPath.row]
-        
-        if let url = URL(string: articleInCell.link!) {
-            let safariVC = SFSafariViewController(url: url)
-            present(safariVC, animated: true, completion: nil)
-        }
+        openInSafari(urlString: articleInCell.link)
     }
 }

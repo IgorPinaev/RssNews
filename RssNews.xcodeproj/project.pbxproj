@@ -23,7 +23,6 @@
 		7D9B6C86229E4E6900232473 /* Channel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C82229E4E6900232473 /* Channel+CoreDataProperties.swift */; };
 		7D9B6C88229E50CE00232473 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C87229E50CE00232473 /* CoreDataManager.swift */; };
 		7D9B6C8A229E5C3400232473 /* ChannelsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C89229E5C3400232473 /* ChannelsController.swift */; };
-		7D9B6C8C229E89A800232473 /* ArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C8B229E89A800232473 /* ArticleCell.swift */; };
 		7DB097EE22A9033F003629C5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097ED22A9033F003629C5 /* Extensions.swift */; };
 		7DB097F122A91841003629C5 /* Favourite+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097EF22A91841003629C5 /* Favourite+CoreDataClass.swift */; };
 		7DB097F222A91841003629C5 /* Favourite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097F022A91841003629C5 /* Favourite+CoreDataProperties.swift */; };
@@ -48,7 +47,6 @@
 		7D9B6C82229E4E6900232473 /* Channel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Channel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7D9B6C87229E50CE00232473 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		7D9B6C89229E5C3400232473 /* ChannelsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsController.swift; sourceTree = "<group>"; };
-		7D9B6C8B229E89A800232473 /* ArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCell.swift; sourceTree = "<group>"; };
 		7DB097ED22A9033F003629C5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7DB097EF22A91841003629C5 /* Favourite+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7DB097F022A91841003629C5 /* Favourite+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -87,7 +85,6 @@
 				7D9B6C79229E442400232473 /* Data */,
 				7D9B6C78229E441600232473 /* Controllers */,
 				7D9B6C61229E43BA00232473 /* AppDelegate.swift */,
-				7D9B6C8B229E89A800232473 /* ArticleCell.swift */,
 				7D829E2D22B75D5B001A968C /* ArticleCollectionCell.swift */,
 				7D9B6C65229E43BA00232473 /* Main.storyboard */,
 				7D9B6C6D229E43BA00232473 /* LaunchScreen.storyboard */,
@@ -215,7 +212,6 @@
 				7D4CF8DF22A7BB9D00B5ABFC /* FeedParser.swift in Sources */,
 				7D9B6C7B229E443F00232473 /* Model.swift in Sources */,
 				7D9B6C84229E4E6900232473 /* Article+CoreDataProperties.swift in Sources */,
-				7D9B6C8C229E89A800232473 /* ArticleCell.swift in Sources */,
 				7D9B6C88229E50CE00232473 /* CoreDataManager.swift in Sources */,
 				7DB097F122A91841003629C5 /* Favourite+CoreDataClass.swift in Sources */,
 				7D9B6C86229E4E6900232473 /* Channel+CoreDataProperties.swift in Sources */,

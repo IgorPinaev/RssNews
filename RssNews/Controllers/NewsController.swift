@@ -12,7 +12,7 @@ import SafariServices
 class NewsController: UIViewController {
 
     var channel: Channel?
-    let indicator = UIActivityIndicatorView(style: .gray)
+    private let refreshControl = UIRefreshControl()
 
     @IBOutlet weak var newsCollection: UICollectionView!
     
@@ -28,19 +28,16 @@ class NewsController: UIViewController {
 
         newsCollection.delegate = self
         newsCollection.dataSource = self
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: .valueChanged)
+        newsCollection.refreshControl = refreshControl
         
         navigationItem.title = channel?.name
-        
-        indicator.hidesWhenStopped = true
-        indicator.center = self.view.center
-        indicator.color = UIColor.orange
-        view.addSubview(indicator)
-        indicator.startAnimating()
+        newsCollection.refreshControl?.beginRefreshing()
+        refreshControlAction(self)
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "endRefreshing"), object: nil, queue: nil) { (notification) in
             DispatchQueue.main.async {
                 self.newsCollection.refreshControl?.endRefreshing()
-                self.indicator.stopAnimating()
             }
         }
         
@@ -54,19 +51,11 @@ class NewsController: UIViewController {
             self.showError()
         }
         
-        Model.sharedInstance.loadData(channel: channel!) {
-            DispatchQueue.main.async {
-                self.newsCollection.reloadData()
-                self.indicator.stopAnimating()
-            }
-        }
-        
-        
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(NewsController.longPressGestureRecognized(_:)))
         newsCollection.addGestureRecognizer(longPress)
     }
     
-    @IBAction func refreshControlAction(_ sender: Any) {
+    @objc func refreshControlAction(_ sender: Any) {
         Model.sharedInstance.loadData(channel: channel!) {
             DispatchQueue.main.async {
                 self.newsCollection.refreshControl?.endRefreshing()
@@ -76,7 +65,7 @@ class NewsController: UIViewController {
     }
     
     func showError() {
-        let alertController = UIAlertController(title: "Ошибка при загрузке", message: "Проверьте ссылку источника", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Loading error", message: "Check source link", preferredStyle: .alert)
         let actionOK = UIAlertAction(title: "Ok", style: .default) { (action) in
             self.navigationController?.popViewController(animated: true)
         }
@@ -86,7 +75,7 @@ class NewsController: UIViewController {
     
     
     func share(index: Int) {
-        let alert = UIAlertController(title: "Title", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let article = self.articlesInChannel[index]
         if favourites.firstIndex(where: {$0.title == article.title && $0.link == article.link && $0.content == article.content && $0.pubDate == article.pubDate && $0.image == article.image}) == nil {
@@ -95,8 +84,18 @@ class NewsController: UIViewController {
             CoreDataManager.sharedInstance.saveContext()
         }))
         }
+        alert.addAction(UIAlertAction(title: "Open in Safari", style: .default, handler: { (action) in
+            self.openInSafari(urlString: article.link)
+        }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+    func openInSafari(urlString: String?) {
+        if let url = URL(string: urlString!) {
+            let safariVC = SFSafariViewController(url: url)
+            present(safariVC, animated: true, completion: nil)
+        }
     }
 }
 
@@ -116,11 +115,7 @@ extension NewsController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let articleInCell = articlesInChannel[indexPath.row]
-        
-        if let url = URL(string: articleInCell.link!) {
-            let safariVC = SFSafariViewController(url: url)
-            present(safariVC, animated: true, completion: nil)
-        }
+        openInSafari(urlString: articleInCell.link)
     }
     
     @objc func longPressGestureRecognized(_ gestureRecognizer: UIGestureRecognizer) {

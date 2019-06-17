@@ -20,7 +20,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="48v-ej-pIe">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="1" green="0.51886188957847246" blue="0.23368046239669304" alpha="0.14604423415492956" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rel-cn-7p7">
                                     <size key="itemSize" width="375" height="228"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -67,6 +67,7 @@
                                                 </label>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="z08-Yp-9Ba" firstAttribute="top" secondItem="P6f-xb-g4J" secondAttribute="bottom" constant="6" id="8Ol-n0-Twx"/>
                                             <constraint firstItem="P6f-xb-g4J" firstAttribute="leading" secondItem="rgP-jg-mdu" secondAttribute="leadingMargin" constant="12" id="9j4-ER-8z7"/>
@@ -120,7 +121,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ncC-Gw-Hhc">
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="1" green="0.51886188957847246" blue="0.23368046239669304" alpha="0.14684198943661972" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Frd-xv-W4l">
                                     <size key="itemSize" width="375" height="228"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -167,6 +168,7 @@
                                                 </label>
                                             </subviews>
                                         </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="VId-zf-pn7" firstAttribute="leading" secondItem="iPd-Rv-bgV" secondAttribute="leadingMargin" constant="12" id="84B-tS-FC9"/>
                                             <constraint firstItem="NmK-rC-snT" firstAttribute="top" secondItem="VId-zf-pn7" secondAttribute="bottom" constant="6" id="9Sd-GN-SbF"/>
