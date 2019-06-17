@@ -19,6 +19,7 @@ class ChannelsController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         channelsTable.reloadData()
     }
     @IBAction func pushAddChannel(_ sender: Any) {
@@ -36,9 +37,14 @@ class ChannelsController: UIViewController {
     
     func addChannel(channelName: String, channelLink: String, index: Int?){
         var title: String
+        var btnTitle: String
         if index == nil {
             title = "Add new channel"
-        } else { title = "Update channel"}
+            btnTitle = "Add"
+        } else {
+            title = "Update channel"
+            btnTitle = "Update"
+        }
         
         let alertController = UIAlertController(title: title, message: nil
             , preferredStyle: .alert)
@@ -52,22 +58,24 @@ class ChannelsController: UIViewController {
             text.placeholder = "Channel link"
         }
         
-        let alertActionAdd = UIAlertAction(title: "Add", style: .default) { (alert) in
+        let alertActionAdd = UIAlertAction(title: btnTitle, style: .default) { (alert) in
             let name = alertController.textFields?[0].text
             let link = alertController.textFields?[1].text
             
             if name != "" && link != "" {
                 if Model.sharedInstance.validateUrl(url: link!) {
                     if index != nil{
-                        let channelInCell = channels[index!]
-                        CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
-                    }
+                        channels[index!].setValue(name, forKey: "name")
+                        channels[index!].setValue(link, forKey: "link")
+                    } else {
                     _ = Channel.newChannel(name: name!, link: link!)
+                    }
                     CoreDataManager.sharedInstance.saveContext()
                     self.channelsTable.reloadData()
                 } else { self.showAlert(error: "Введите корректный адрес источника", channelName: name!, channelLink: link!, index: index)}
             } else {self.showAlert(error: "Пожалуйста заполните все поля", channelName: name!, channelLink: link!, index: index)}
         }
+        
         let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
         
         alertController.addAction(alertActionCancel)
@@ -108,21 +116,22 @@ extension ChannelsController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    //    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    //        let delete = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
-    //            let channelInCell = channels[indexPath.row]
-    ////            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
-    ////            CoreDataManager.sharedInstance.saveContext()
-    ////            tableView.deleteRows(at: [indexPath], with: .fade)
-    //        }
-    //        delete.backgroundColor = UIColor.red
-    //        delete.image = UIImage(named: "bin")
-    //        return UISwipeActionsConfiguration(actions: [delete])
-    //    }
+        func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+            let delete = UIContextualAction(style: .destructive, title: nil) { (action, view, completion) in
+                let channelInCell = channels[indexPath.row]
+                CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
+                CoreDataManager.sharedInstance.saveContext()
+                completion(true)
+                
+            }
+            delete.backgroundColor = UIColor.red
+            delete.image = UIImage(named: "bin")
+            return UISwipeActionsConfiguration(actions: [delete])
+        }
     
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let edit = UIContextualAction(style: .destructive, title: nil) { (action, view, nil) in
+        let edit = UIContextualAction(style: .normal, title: nil) { (action, view, nil) in
             let channelInCell = channels[indexPath.row]
             self.addChannel(channelName: channelInCell.name!, channelLink: channelInCell.link!, index: indexPath.row)
         }
@@ -131,18 +140,4 @@ extension ChannelsController: UITableViewDelegate, UITableViewDataSource {
         
         return UISwipeActionsConfiguration(actions: [edit])
     }
-    
-    // Override to support editing the table view.
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            
-            let channelInCell = channels[indexPath.row]
-            
-            CoreDataManager.sharedInstance.managedObjectContext.delete(channelInCell)
-            CoreDataManager.sharedInstance.saveContext()
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
-    
 }

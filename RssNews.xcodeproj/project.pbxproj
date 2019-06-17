@@ -10,6 +10,7 @@
 		7D4CF8DF22A7BB9D00B5ABFC /* FeedParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D4CF8DE22A7BB9D00B5ABFC /* FeedParser.swift */; };
 		7D55C48E22AA60FD0036FF92 /* FavouritesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D55C48D22AA60FD0036FF92 /* FavouritesController.swift */; };
 		7D55C49222AA77E30036FF92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D55C49122AA77E30036FF92 /* Assets.xcassets */; };
+		7D829E2E22B75D5B001A968C /* ArticleCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D829E2D22B75D5B001A968C /* ArticleCollectionCell.swift */; };
 		7D9B6C62229E43BA00232473 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C61229E43BA00232473 /* AppDelegate.swift */; };
 		7D9B6C67229E43BA00232473 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D9B6C65229E43BA00232473 /* Main.storyboard */; };
 		7D9B6C6A229E43BA00232473 /* RssNews.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C68229E43BA00232473 /* RssNews.xcdatamodeld */; };
@@ -23,6 +24,7 @@
 		7D9B6C88229E50CE00232473 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C87229E50CE00232473 /* CoreDataManager.swift */; };
 		7D9B6C8A229E5C3400232473 /* ChannelsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C89229E5C3400232473 /* ChannelsController.swift */; };
 		7D9B6C8C229E89A800232473 /* ArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9B6C8B229E89A800232473 /* ArticleCell.swift */; };
+		7D9DDC4122B35F34002C13E9 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D9DDC4022B35F34002C13E9 /* CollectionViewController.swift */; };
 		7DB097EE22A9033F003629C5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097ED22A9033F003629C5 /* Extensions.swift */; };
 		7DB097F122A91841003629C5 /* Favourite+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097EF22A91841003629C5 /* Favourite+CoreDataClass.swift */; };
 		7DB097F222A91841003629C5 /* Favourite+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DB097F022A91841003629C5 /* Favourite+CoreDataProperties.swift */; };
@@ -32,6 +34,7 @@
 		7D4CF8DE22A7BB9D00B5ABFC /* FeedParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedParser.swift; sourceTree = "<group>"; };
 		7D55C48D22AA60FD0036FF92 /* FavouritesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesController.swift; sourceTree = "<group>"; };
 		7D55C49122AA77E30036FF92 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7D829E2D22B75D5B001A968C /* ArticleCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCollectionCell.swift; sourceTree = "<group>"; };
 		7D9B6C5E229E43BA00232473 /* RssNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RssNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D9B6C61229E43BA00232473 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7D9B6C66229E43BA00232473 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -47,6 +50,7 @@
 		7D9B6C87229E50CE00232473 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		7D9B6C89229E5C3400232473 /* ChannelsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsController.swift; sourceTree = "<group>"; };
 		7D9B6C8B229E89A800232473 /* ArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCell.swift; sourceTree = "<group>"; };
+		7D9DDC4022B35F34002C13E9 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		7DB097ED22A9033F003629C5 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7DB097EF22A91841003629C5 /* Favourite+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7DB097F022A91841003629C5 /* Favourite+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Favourite+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 				7D9B6C78229E441600232473 /* Controllers */,
 				7D9B6C61229E43BA00232473 /* AppDelegate.swift */,
 				7D9B6C8B229E89A800232473 /* ArticleCell.swift */,
+				7D829E2D22B75D5B001A968C /* ArticleCollectionCell.swift */,
 				7D9B6C65229E43BA00232473 /* Main.storyboard */,
 				7D9B6C6D229E43BA00232473 /* LaunchScreen.storyboard */,
 				7D55C49122AA77E30036FF92 /* Assets.xcassets */,
@@ -100,6 +105,7 @@
 				7D9B6C76229E441000232473 /* NewsController.swift */,
 				7D55C48D22AA60FD0036FF92 /* FavouritesController.swift */,
 				7D9B6C89229E5C3400232473 /* ChannelsController.swift */,
+				7D9DDC4022B35F34002C13E9 /* CollectionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -205,11 +211,13 @@
 				7DB097F222A91841003629C5 /* Favourite+CoreDataProperties.swift in Sources */,
 				7D9B6C77229E441000232473 /* NewsController.swift in Sources */,
 				7D9B6C62229E43BA00232473 /* AppDelegate.swift in Sources */,
+				7D829E2E22B75D5B001A968C /* ArticleCollectionCell.swift in Sources */,
 				7D9B6C85229E4E6900232473 /* Channel+CoreDataClass.swift in Sources */,
 				7D55C48E22AA60FD0036FF92 /* FavouritesController.swift in Sources */,
 				7D9B6C6A229E43BA00232473 /* RssNews.xcdatamodeld in Sources */,
 				7D4CF8DF22A7BB9D00B5ABFC /* FeedParser.swift in Sources */,
 				7D9B6C7B229E443F00232473 /* Model.swift in Sources */,
+				7D9DDC4122B35F34002C13E9 /* CollectionViewController.swift in Sources */,
 				7D9B6C84229E4E6900232473 /* Article+CoreDataProperties.swift in Sources */,
 				7D9B6C8C229E89A800232473 /* ArticleCell.swift in Sources */,
 				7D9B6C88229E50CE00232473 /* CoreDataManager.swift in Sources */,
