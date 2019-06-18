@@ -12,12 +12,6 @@ class ChannelsController: UIViewController {
 
     @IBOutlet private weak var channelsTable: UITableView!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        channelsTable.delegate = self
-        channelsTable.dataSource = self
-    }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         channelsTable.reloadData()
@@ -27,8 +21,8 @@ class ChannelsController: UIViewController {
     }
    
     func showAlert(error: String, channelName: String, channelLink: String, index: Int?) {
-        let alertError = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
-        let actionOk = UIAlertAction(title: "Ok", style: .default) { (action) in
+        let alertError = UIAlertController(title: "Error".localize(), message: error, preferredStyle: .alert)
+        let actionOk = UIAlertAction(title: "Ok".localize(), style: .default) { (action) in
             self.addChannel(channelName: channelName, channelLink: channelLink, index: index)
         }
         alertError.addAction(actionOk)
@@ -39,11 +33,11 @@ class ChannelsController: UIViewController {
         var title: String
         var btnTitle: String
         if index == nil {
-            title = "Add new channel"
-            btnTitle = "Add"
+            title = "Add new channel".localize()
+            btnTitle = "Add".localize()
         } else {
-            title = "Update channel"
-            btnTitle = "Update"
+            title = "Update channel".localize()
+            btnTitle = "Update".localize()
         }
         
         let alertController = UIAlertController(title: title, message: nil
@@ -51,14 +45,18 @@ class ChannelsController: UIViewController {
         
         alertController.addTextField { (text) in
             text.text = channelName
-            text.placeholder = "Channel title"
+            text.placeholder = "Channel title".localize()
         }
         alertController.addTextField { (text) in
             text.text = channelLink
-            text.placeholder = "Channel link"
+            text.placeholder = "Channel link".localize()
         }
         
-        let alertActionAdd = UIAlertAction(title: btnTitle, style: .default) { (alert) in
+        alertController.addAction(UIAlertAction(title: "Cancel".localize(), style: .default, handler: { (handler) in
+            self.channelsTable.reloadData()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: btnTitle, style: .default) { (alert) in
             let name = alertController.textFields?[0].text
             let link = alertController.textFields?[1].text
             
@@ -71,14 +69,10 @@ class ChannelsController: UIViewController {
                     }
                     CoreDataManager.sharedInstance.saveContext()
                     self.channelsTable.reloadData()
-                } else { self.showAlert(error: "Please enter a valid source address", channelName: name!, channelLink: link!, index: index)}
-            } else {self.showAlert(error: "Please fill in all fields", channelName: name!, channelLink: link!, index: index)}
-        }
+                } else { self.showAlert(error: "Please enter a valid source address".localize(), channelName: name!, channelLink: link!, index: index)}
+            } else {self.showAlert(error: "Please fill in all fields".localize(), channelName: name!, channelLink: link!, index: index)}
+        })
         
-        let alertActionCancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
-        
-        alertController.addAction(alertActionCancel)
-        alertController.addAction(alertActionAdd)
         present(alertController, animated: true, completion: nil)
     }
 }

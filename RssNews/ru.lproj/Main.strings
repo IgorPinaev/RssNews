@@ -1,0 +1,39 @@
+
+/* Class = "UITabBarItem"; title = "Favourite"; ObjectID = "27t-gF-RPp"; */
+"27t-gF-RPp.title" = "Избранное";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "29e-af-RhK"; */
+"29e-af-RhK.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "B7c-0u-rGJ"; */
+"B7c-0u-rGJ.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "NmK-rC-snT"; */
+"NmK-rC-snT.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "P6f-xb-g4J"; */
+"P6f-xb-g4J.text" = "Label";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "QAE-3h-56C"; */
+"QAE-3h-56C.text" = "Title";
+
+/* Class = "UITabBarItem"; title = "Channels"; ObjectID = "Qy1-HR-E6G"; */
+"Qy1-HR-E6G.title" = "Каналы";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "VId-zf-pn7"; */
+"VId-zf-pn7.text" = "Label";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "a3c-A6-QDz"; */
+"a3c-A6-QDz.text" = "Subtitle";
+
+/* Class = "UINavigationItem"; title = "Favourite"; ObjectID = "ewh-JP-sDd"; */
+"ewh-JP-sDd.title" = "Избранное";
+
+/* Class = "UINavigationItem"; title = "Channels"; ObjectID = "nmv-sp-8C7"; */
+"nmv-sp-8C7.title" = "Каналы";
+
+/* Class = "UINavigationItem"; title = "News"; ObjectID = "x0a-9w-3Q2"; */
+"x0a-9w-3Q2.title" = "Новости";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "z08-Yp-9Ba"; */
+"z08-Yp-9Ba.text" = "Label";

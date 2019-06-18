@@ -1,0 +1,25 @@
+/* 
+  Localized.strings
+  RssNews
+
+  Created by Игорь Пинаев on 18/06/2019.
+  Copyright © 2019 Igor Pinaev. All rights reserved.
+*/
+
+"Loading error" = "Ошибка загрузки";
+"Check source link" = "Проверьте ссылку источника";
+"Ok" = "Ок";
+"Add to favourites" = "Добавить в избранное";
+"Open in Safari" = "Открыть в Safari";
+"Cancel" = "Отмена";
+"Remove from favourites" = "Удалить из избранного";
+"Error" = "Ошибка";
+"Add new channel" = "Добавить новый канал";
+"Add" = "Добавить";
+"Update channel" = "Редактировать канал";
+"Update" = "Редактировать";
+"Channel title" = "Название канала";
+"Channel link" = "Ссылка канала";
+"Please enter a valid source address" = "Пожалуйста введите правильный адрес источника";
+"Please fill in all fields" = "Пожалуйста заполните все поля";
+"en_US" = "ru_RU";

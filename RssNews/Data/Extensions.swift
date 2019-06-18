@@ -11,7 +11,7 @@ import Foundation
 extension NSDate {
     func toString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.init(identifier: "ru_RU")
+        dateFormatter.locale = Locale.init(identifier: "en_US".localize())
         dateFormatter.dateFormat = "HH:mm  d MMM yyyy"
         return dateFormatter.string(from: self as Date)
     }
@@ -34,5 +34,9 @@ extension String {
         
         guard let attibutedString = try? NSAttributedString(data: data, options: options, documentAttributes: nil) else { return self}
         return attibutedString.string
+    }
+    
+    func localize() -> String{
+        return NSLocalizedString(self, comment: "")
     }
 }
