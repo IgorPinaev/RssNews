@@ -11,7 +11,7 @@ import Foundation
 extension NSDate {
     func toString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.init(identifier: "en_US".localize())
+//        dateFormatter.locale = Locale.init(identifier: "en_US".localize())
         dateFormatter.dateFormat = "HH:mm  d MMM yyyy"
         return dateFormatter.string(from: self as Date)
     }
@@ -19,10 +19,19 @@ extension NSDate {
 
 extension String {
     func toDate() -> NSDate {
+        
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "E, d MMM yyyy HH:mm:ss Z"
-        guard let date = dateFormatter.date(from: self) else {return NSDate()}
-        return date as NSDate
+        let date = dateFormatter.date(from: self)
+        
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter2.dateFormat = "E, d MMM yyyy HH:mm:ss z"
+        let date2 = dateFormatter2.date(from: self)
+        
+        guard let dateUnwrapped = date else {return date2! as NSDate}
+        return dateUnwrapped as NSDate
     }
     
     var htmlToString: String {
